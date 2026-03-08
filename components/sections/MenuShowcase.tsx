@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useTranslations } from "@/components/LanguageProvider";
 
 export default function MenuShowcase() {
+  const tr = useTranslations();
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -23,51 +25,7 @@ export default function MenuShowcase() {
     return () => observer.disconnect();
   }, []);
 
-  const pastries = [
-    {
-      name: "Croissant au Beurre",
-      description: "Feuilletage croustillant au beurre AOP de Normandie",
-      price: "2.50",
-      image:
-        "https://images.pexels.com/photos/2135677/pexels-photo-2135677.jpeg?auto=compress&cs=tinysrgb&w=800",
-    },
-    {
-      name: "Éclair Chocolat",
-      description:
-        "Pâte à choux garnie de crème pâtissière au chocolat Valrhona",
-      price: "4.80",
-      image:
-        "https://images.pexels.com/photos/4686960/pexels-photo-4686960.jpeg?auto=compress&cs=tinysrgb&w=800",
-    },
-    {
-      name: "Tarte aux Framboises",
-      description: "Pâte sablée, crème d'amande et framboises fraîches",
-      price: "6.50",
-      image:
-        "https://images.pexels.com/photos/1055272/pexels-photo-1055272.jpeg?auto=compress&cs=tinysrgb&w=800",
-    },
-    {
-      name: "Mille-feuille",
-      description: "Feuilletage caramélisé et crème mousseline vanille Bourbon",
-      price: "5.20",
-      image:
-        "https://images.unsplash.com/photo-1682263167429-0dbcf2c1e127?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      name: "Paris-Brest",
-      description: "Pâte à choux pralinée, crème mousseline praliné maison",
-      price: "5.80",
-      image:
-        "https://images.pexels.com/photos/6940998/pexels-photo-6940998.jpeg?auto=compress&cs=tinysrgb&w=800",
-    },
-    {
-      name: "Macarons Assortis",
-      description: "Assortiment de 6 macarons aux saveurs variées",
-      price: "12.00",
-      image:
-        "https://images.pexels.com/photos/2067396/pexels-photo-2067396.jpeg?auto=compress&cs=tinysrgb&w=800",
-    },
-  ];
+  const pastries = tr.menu.pastries;
 
   return (
     <section
@@ -80,14 +38,13 @@ export default function MenuShowcase() {
           className={`text-center mb-16 transition-all duration-1000 transform ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
         >
           <span className="text-sm tracking-[0.3em] text-[#B8956A] font-medium uppercase mb-4 block">
-            Nos Créations
+            {tr.menu.smallLabel}
           </span>
           <h2 className="font-playfair text-4xl sm:text-5xl lg:text-6xl text-[#2C1810] mb-6">
-            Signatures de la Maison
+            {tr.menu.title}
           </h2>
           <p className="text-lg text-[#5C4A3A] max-w-2xl mx-auto">
-            Découvrez nos spécialités confectionnées quotidiennement avec des
-            ingrédients d'exception
+            {tr.menu.paragraph}
           </p>
         </div>
 
@@ -126,9 +83,7 @@ export default function MenuShowcase() {
         </div>
 
         <div className="text-center mt-12">
-          <p className="text-[#5C4A3A] italic">
-            * Nos créations sont disponibles selon arrivage et saison
-          </p>
+          <p className="text-[#5C4A3A] italic">{tr.menu.footnote}</p>
         </div>
       </div>
     </section>

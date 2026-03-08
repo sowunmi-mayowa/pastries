@@ -1,10 +1,12 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef } from 'react';
-import { MapPin, Clock, Phone, Instagram } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useState, useEffect, useRef } from "react";
+import { MapPin, Clock, Phone, Instagram } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useTranslations } from "@/components/LanguageProvider";
 
 export default function Location() {
+  const tr = useTranslations();
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -15,7 +17,7 @@ export default function Location() {
           setIsVisible(true);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     if (sectionRef.current) {
@@ -25,26 +27,26 @@ export default function Location() {
     return () => observer.disconnect();
   }, []);
 
-  const openingHours = [
-    { day: 'Lundi - Vendredi', hours: '7h00 - 19h00' },
-    { day: 'Samedi', hours: '8h00 - 19h00' },
-    { day: 'Dimanche', hours: '8h00 - 14h00' }
-  ];
+  const openingHours = tr.location.openingHours;
 
   return (
     <section ref={sectionRef} className="py-20 lg:py-32 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className={`text-center mb-16 transition-all duration-1000 transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div
+          className={`text-center mb-16 transition-all duration-1000 transform ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+        >
           <span className="text-sm tracking-[0.3em] text-[#B8956A] font-medium uppercase mb-4 block">
-            Venez nous voir
+            {tr.location.smallLabel}
           </span>
           <h2 className="font-playfair text-4xl sm:text-5xl lg:text-6xl text-[#2C1810] mb-6">
-            Notre Boutique
+            {tr.location.title}
           </h2>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          <div className={`transition-all duration-1000 delay-200 transform ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
+          <div
+            className={`transition-all duration-1000 delay-200 transform ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"}`}
+          >
             <div className="relative rounded-2xl overflow-hidden shadow-xl h-full min-h-[400px]">
               <div className="absolute inset-0 bg-gradient-to-br from-[#F5E8D8] to-[#E8D5C4]">
                 <iframe
@@ -61,7 +63,9 @@ export default function Location() {
             </div>
           </div>
 
-          <div className={`transition-all duration-1000 delay-300 transform ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}>
+          <div
+            className={`transition-all duration-1000 delay-300 transform ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"}`}
+          >
             <div className="space-y-8">
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0 w-12 h-12 rounded-full bg-[#FFF8F0] flex items-center justify-center">
@@ -69,19 +73,24 @@ export default function Location() {
                 </div>
                 <div>
                   <h3 className="font-playfair text-2xl text-[#2C1810] mb-2">
-                    Adresse
+                    {tr.location.addressTitle}
                   </h3>
                   <p className="text-[#5C4A3A] text-lg leading-relaxed">
-                    42 Rue de la Paix<br />
-                    75008 Paris<br />
-                    France
+                    {tr.location.addressLines.map((line, i) => (
+                      <span key={i}>
+                        {line}
+                        <br />
+                      </span>
+                    ))}
                   </p>
                   <Button
                     variant="link"
                     className="text-[#B8956A] hover:text-[#8B6F47] p-0 h-auto mt-2"
-                    onClick={() => window.open('https://maps.google.com', '_blank')}
+                    onClick={() =>
+                      window.open("https://maps.google.com", "_blank")
+                    }
                   >
-                    Ouvrir dans Google Maps →
+                    {tr.location.openButton}
                   </Button>
                 </div>
               </div>
@@ -92,11 +101,14 @@ export default function Location() {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-playfair text-2xl text-[#2C1810] mb-3">
-                    Horaires
+                    {tr.location.hoursTitle}
                   </h3>
                   <div className="space-y-2">
                     {openingHours.map((schedule) => (
-                      <div key={schedule.day} className="flex justify-between items-center py-2 border-b border-[#E8D5C4] last:border-0">
+                      <div
+                        key={schedule.day}
+                        className="flex justify-between items-center py-2 border-b border-[#E8D5C4] last:border-0"
+                      >
                         <span className="text-[#5C4A3A] font-medium">
                           {schedule.day}
                         </span>
@@ -115,14 +127,12 @@ export default function Location() {
                 </div>
                 <div>
                   <h3 className="font-playfair text-2xl text-[#2C1810] mb-2">
-                    Contact
+                    {tr.location.contactTitle}
                   </h3>
                   <p className="text-[#5C4A3A] text-lg mb-1">
-                    +33 1 42 86 82 00
+                    {tr.location.phone}
                   </p>
-                  <p className="text-[#5C4A3A] text-lg">
-                    contact@maisonelise.fr
-                  </p>
+                  <p className="text-[#5C4A3A] text-lg">{tr.location.email}</p>
                 </div>
               </div>
 
@@ -132,17 +142,19 @@ export default function Location() {
                 </div>
                 <div>
                   <h3 className="font-playfair text-2xl text-[#2C1810] mb-2">
-                    Suivez-nous
+                    {tr.location.followTitle}
                   </h3>
                   <Button
                     variant="link"
                     className="text-[#B8956A] hover:text-[#8B6F47] p-0 h-auto text-lg"
-                    onClick={() => window.open('https://instagram.com', '_blank')}
+                    onClick={() =>
+                      window.open("https://instagram.com", "_blank")
+                    }
                   >
-                    @maisoneliseparis →
+                    {tr.location.instaLabel}
                   </Button>
                   <p className="text-[#5C4A3A] text-sm mt-2">
-                    Découvrez nos créations quotidiennes
+                    {tr.location.followNote}
                   </p>
                 </div>
               </div>

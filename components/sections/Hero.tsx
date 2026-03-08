@@ -1,22 +1,24 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { ChevronDown } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useState, useEffect } from "react";
+import { ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useTranslations } from "@/components/LanguageProvider";
 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false);
+  const tr = useTranslations();
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
   const scrollToMenu = () => {
-    document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById("menu")?.scrollIntoView({ behavior: "smooth" });
   };
 
   const scrollToOrder = () => {
-    document.getElementById('order')?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById("order")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -25,44 +27,16 @@ export default function Hero() {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <div className={`text-center lg:text-left transition-all duration-1000 transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            <div className="inline-block mb-4">
-              <span className="text-sm tracking-[0.3em] text-[#8B6F47] font-medium uppercase">
-                Depuis 2025
-              </span>
-            </div>
-
-            <h1 className="font-playfair text-5xl sm:text-6xl lg:text-7xl xl:text-8xl text-[#2C1810] mb-6 leading-tight">
-              L'Art de la
-              <span className="block text-[#B8956A] italic mt-2">Pâtisserie</span>
-            </h1>
-
-            <p className="text-lg sm:text-xl text-[#5C4A3A] mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Des créations artisanales réalisées chaque jour avec passion et savoir-faire,
-              au cœur de Paris.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button
-                onClick={scrollToOrder}
-                size="lg"
-                className="bg-[#2C1810] hover:bg-[#3D2415] text-white px-8 py-6 text-base rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-              >
-                Commander en ligne
-              </Button>
-
-              <Button
-                onClick={scrollToMenu}
-                size="lg"
-                variant="outline"
-                className="border-2 border-[#B8956A] text-[#2C1810] hover:bg-[#B8956A] hover:text-white px-8 py-6 text-base rounded-full transition-all duration-300 hover:scale-105"
-              >
-                Voir notre menu
-              </Button>
-            </div>
+          <div
+            className={`text-center lg:text-left transition-all duration-1000 transform ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+          >
+            {/** Translations */}
+            <HeroContent />
           </div>
 
-          <div className={`relative transition-all duration-1000 delay-300 transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div
+            className={`relative transition-all duration-1000 delay-300 transform ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+          >
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
               <div className="aspect-[4/5] bg-gradient-to-br from-[#F5E8D8] to-[#E8D5C4]">
                 <img
@@ -73,15 +47,21 @@ export default function Hero() {
               </div>
 
               <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl max-w-xs">
-                <p className="text-sm text-[#8B6F47] mb-1">Aujourd'hui</p>
-                <p className="font-playfair text-2xl text-[#2C1810] mb-1">Croissants frais</p>
-                <p className="text-sm text-[#5C4A3A]">Sortis du four à 7h</p>
+                <p className="text-sm text-[#8B6F47] mb-1">
+                  {tr.hero.todayLabel}
+                </p>
+                <p className="font-playfair text-2xl text-[#2C1810] mb-1">
+                  {tr.hero.todayItem}
+                </p>
+                <p className="text-sm text-[#5C4A3A]">{tr.hero.todaySub}</p>
               </div>
             </div>
 
             <div className="absolute -top-6 -right-6 bg-[#B8956A] text-white p-6 rounded-2xl shadow-xl">
-              <p className="text-sm mb-1">Ouvert</p>
-              <p className="font-playfair text-xl font-semibold">7h - 19h</p>
+              <p className="text-sm mb-1">{tr.hero.openLabel}</p>
+              <p className="font-playfair text-xl font-semibold">
+                {tr.hero.hours}
+              </p>
             </div>
           </div>
         </div>
@@ -90,10 +70,58 @@ export default function Hero() {
       <button
         onClick={scrollToMenu}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-[#8B6F47] hover:text-[#2C1810] transition-all duration-300 animate-bounce"
-        aria-label="Défiler vers le bas"
+        aria-label={tr.hero.scrollAria}
       >
         <ChevronDown className="w-8 h-8" />
       </button>
     </section>
+  );
+}
+
+function HeroContent() {
+  const tr = useTranslations();
+  const scrollToOrder = () =>
+    document.getElementById("order")?.scrollIntoView({ behavior: "smooth" });
+  const scrollToMenu = () =>
+    document.getElementById("menu")?.scrollIntoView({ behavior: "smooth" });
+
+  return (
+    <>
+      <div className="inline-block mb-4">
+        <span className="text-sm tracking-[0.3em] text-[#8B6F47] font-medium uppercase">
+          {tr.hero.since}
+        </span>
+      </div>
+
+      <h1 className="font-playfair text-5xl sm:text-6xl lg:text-7xl xl:text-8xl text-[#2C1810] mb-6 leading-tight">
+        {tr.hero.titleLine1}
+        <span className="block text-[#B8956A] italic mt-2">
+          {tr.hero.titleLine2}
+        </span>
+      </h1>
+
+      <p className="text-lg sm:text-xl text-[#5C4A3A] mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+        {tr.hero.paragraph}
+      </p>
+
+      <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+        <Button
+          onClick={scrollToOrder}
+          size="lg"
+          className="bg-[#2C1810] hover:bg-[#3D2415] text-white px-8 py-6 text-base rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+        >
+          {tr.hero.orderButton}
+        </Button>
+
+        <Button
+          onClick={scrollToMenu}
+          size="lg"
+          variant="outline"
+          className="border-2 border-[#B8956A] text-[#2C1810] hover:bg-[#B8956A] hover:text-white px-8 py-6 text-base rounded-full transition-all duration-300 hover:scale-105"
+        >
+          {tr.hero.viewMenuButton}
+        </Button>
+      </div>
+    </>
   );
 }
